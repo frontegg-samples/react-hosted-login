@@ -154,8 +154,7 @@ jobs:
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ⚠️ PR for @frontegg/react version ${{ steps.check-updates.outputs.latest_version }} was created but auto-merge could NOT be enabled. Manual approval needed! \nRepository: ${{ github.server_url }}/${{ github.repository }}\nPR: ${{ steps.create-pr.outputs.pr_url }}"
           SLACK_TITLE: "Auto-merge Not Enabled"
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
 
       - name: Notify Slack on successful update
@@ -167,8 +166,7 @@ jobs:
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ${{ github.actor }} pushed updated version of @frontegg/react version ${{ steps.check-updates.outputs.latest_version }}! \nRepository: ${{ github.server_url }}/${{ github.repository }}"
           SLACK_TITLE: "Frontegg Package Auto-Update"
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
 
       - name: Notify Slack on build failure
@@ -180,6 +178,5 @@ jobs:
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ⚠️ Build failed when updating to @frontegg/react version ${{ steps.check-updates.outputs.latest_version }}! \nRepository: ${{ github.server_url }}/${{ github.repository }}"
           SLACK_TITLE: "Frontegg Package Update Failed"
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
