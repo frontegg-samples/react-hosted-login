@@ -5,10 +5,11 @@ import Welcome from "./Welcome";
 import SignupBanner from "./SignupBanner";
 
 const Main = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const loginWithRedirect = useLoginWithRedirect();
 
   // Uncomment to skip welcome page and redirect to login or app if authenticated
+  // const { isAuthenticated, isLoading } = useAuth();
   // useEffect(() => {
   //   if (!isAuthenticated && !isLoading) {
   //     loginWithRedirect();

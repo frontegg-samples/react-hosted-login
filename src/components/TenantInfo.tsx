@@ -9,7 +9,7 @@ import { ITenantsResponseV2 } from "@frontegg/rest-api";
 import getInitials from "../utils/getInitials";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import TenantsDropdown from "./TenantsDropdown";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 type ITentantsExtended = ITenantsResponseV2 & {
   creatorEmail: string;
