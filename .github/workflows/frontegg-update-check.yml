@@ -16,6 +16,13 @@ jobs:
         with:
           ref: main
 
+      - name: Validate required secrets
+        run: |
+          if [ -z "${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}" ]; then
+            echo "Missing required secret: SAMPLES_UPDATE_SLACK_WEBHOOK"
+            exit 1
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -126,8 +133,8 @@ jobs:
             echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
           fi
 
-      - name: Enable PR Auto-merge
-        id: automerge
+      - name: Merge Pull Request
+        id: merge-pr
         if: steps.check-updates.outputs.update_available == 'true' && success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -135,19 +142,20 @@ jobs:
           PR_URL="${{ steps.create-pr.outputs.pr_url }}"
           PR_NUMBER=$(echo $PR_URL | awk -F/ '{print $NF}')
           
-          echo "Attempting to enable auto-merge for PR #$PR_NUMBER"
-          if gh pr merge $PR_NUMBER --auto --squash 2>/dev/null; then
-            echo "automerge_failed=false" >> $GITHUB_OUTPUT
-            echo "Successfully enabled auto-merge for PR #$PR_NUMBER"
+          echo "Attempting to merge PR #$PR_NUMBER"
+          if gh pr merge $PR_NUMBER --squash --delete-branch; then
+            echo "merge_failed=false" >> $GITHUB_OUTPUT
+            echo "Successfully merged PR #$PR_NUMBER"
           else
-            echo "automerge_failed=true" >> $GITHUB_OUTPUT
-            echo "Could not enable auto-merge for PR #$PR_NUMBER (this may be because protected branch rules are not configured)"
-            echo "Continuing workflow - PR will need manual approval"
+            echo "merge_failed=true" >> $GITHUB_OUTPUT
+            echo "Could not merge PR #$PR_NUMBER (this may be due to protected branch rules or required checks)"
+            echo "PR will need manual approval"
           fi
 
-      - name: Notify Slack on auto-merge failure
-        if: steps.check-updates.outputs.update_available == 'true' && success() && steps.automerge.outputs.automerge_failed == 'true'
+      - name: Notify Slack on merge failure
+        if: steps.check-updates.outputs.update_available == 'true' && steps.merge-pr.outputs.merge_failed == 'true'
         uses: rtCamp/action-slack-notify@v2
+        continue-on-error: false
         env:
           SLACK_CHANNEL: frontegg-alpha-versions
           SLACK_COLOR: warning
@@ -157,9 +165,22 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
 
-      - name: Notify Slack on successful update
-        if: steps.check-updates.outputs.update_available == 'true' && success() && steps.automerge.outputs.automerge_failed != 'true'
+          - name: Notify Slack on deployment
         uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: Production
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
+          SLACK_MESSAGE: '${{ github.actor }} has deployed @frontegg/react version: ${{ steps.set_current_version.outputs.CURRENT_VERSION }} :rocket:'
+          SLACK_TITLE: '@frontegg/react version: ${{ steps.set_current_version.outputs.CURRENT_VERSION }} has been successfully published'
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_WEBHOOK:  ${{ secrets.SLACK_PRODUCTION_TOKEN }}
+          MSG_MINIMAL: Commit,actions url
+
+      - name: Notify Slack on successful update
+        if: steps.check-updates.outputs.update_available == 'true' && steps.merge-pr.outputs.merge_failed != 'true'
+        uses: rtCamp/action-slack-notify@v2
+        continue-on-error: false
         env:
           SLACK_CHANNEL: frontegg-alpha-versions
           SLACK_COLOR: good
@@ -172,6 +193,7 @@ jobs:
       - name: Notify Slack on build failure
         if: failure() && steps.check-updates.outputs.update_available == 'true' && steps.build.outcome == 'failure'
         uses: rtCamp/action-slack-notify@v2
+        continue-on-error: false
         env:
           SLACK_CHANNEL: frontegg-alpha-versions
           SLACK_COLOR: danger
