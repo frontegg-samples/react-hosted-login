@@ -165,18 +165,6 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
 
-          - name: Notify Slack on deployment
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: Production
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
-          SLACK_MESSAGE: '${{ github.actor }} has deployed @frontegg/react version: ${{ steps.set_current_version.outputs.CURRENT_VERSION }} :rocket:'
-          SLACK_TITLE: '@frontegg/react version: ${{ steps.set_current_version.outputs.CURRENT_VERSION }} has been successfully published'
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_WEBHOOK:  ${{ secrets.SLACK_PRODUCTION_TOKEN }}
-          MSG_MINIMAL: Commit,actions url
-
       - name: Notify Slack on successful update
         if: steps.check-updates.outputs.update_available == 'true' && steps.merge-pr.outputs.merge_failed != 'true'
         uses: rtCamp/action-slack-notify@v2
