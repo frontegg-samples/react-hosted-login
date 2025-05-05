@@ -157,7 +157,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         continue-on-error: false
         env:
-          SLACK_CHANNEL: frontegg-alpha-versions
+          SLACK_CHANNEL: samples-makeover
           SLACK_COLOR: warning
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ⚠️ PR for @frontegg/react version ${{ steps.check-updates.outputs.latest_version }} was created but auto-merge could NOT be enabled. Manual approval needed! \nRepository: ${{ github.server_url }}/${{ github.repository }}\nPR: ${{ steps.create-pr.outputs.pr_url }}"
@@ -170,7 +170,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         continue-on-error: false
         env:
-          SLACK_CHANNEL: frontegg-alpha-versions
+          SLACK_CHANNEL: samples-makeover
           SLACK_COLOR: good
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ${{ github.actor }} pushed updated version of @frontegg/react version ${{ steps.check-updates.outputs.latest_version }}! \nRepository: ${{ github.server_url }}/${{ github.repository }}"
@@ -183,7 +183,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         continue-on-error: false
         env:
-          SLACK_CHANNEL: frontegg-alpha-versions
+          SLACK_CHANNEL: samples-makeover
           SLACK_COLOR: danger
           SLACK_ICON: https://avatars.githubusercontent.com/u/67857107?s=40&v=4
           SLACK_MESSAGE: "React hosted sample: ⚠️ Build failed when updating to @frontegg/react version ${{ steps.check-updates.outputs.latest_version }}! \nRepository: ${{ github.server_url }}/${{ github.repository }}"
