@@ -570,6 +570,12 @@
   margin-top: 24px;
 }
 
+.title-actions {
+display: flex;
+gap: 16px;
+align-items: center;
+}
+
 @keyframes spinner {
   0% {
     transform: rotate(0deg);
