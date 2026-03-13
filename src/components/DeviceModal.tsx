@@ -63,9 +63,6 @@ const VerifyDeviceModal = ({ onClose, onSubmit }: VerifyDeviceModalProps) => {
           <button className="secondary-button" onClick={handleClose}>
             Cancel
           </button>
-          <button className="secondary-button" onClick={handleClose}>
-            x
-          </button>
           <button className="primary-button" onClick={handleSubmit}>
             Continue
           </button>
