@@ -1,31 +1,42 @@
 import { AdminPortal, useAuth } from "@frontegg/react";
-import { memo } from "react";
+import { memo, useState } from "react";
 import TenantInfo from "./TenantInfo";
 import UserProfileIcon from "./UserProfileIcon";
 import UserInfoItem from "./UserInfoItem";
-
+import VerifyDeviceModal from "./DeviceModal";
+ 
 const AccountInfo = () => {
   const { user } = useAuth();
-
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+ 
   const handleAdminPortal = () => {
     window.location.href = "#/admin-box";
     AdminPortal.show();
   };
-
+ 
   const userRoles = user?.roles.map((role) => role.name).join(", ");
-
+ 
   return (
     <main className="section-screen">
       <div className="section-card account-card">
         <div className="title-wrapper">
           <h1 className="title">Hello, {user?.name || ""}!</h1>
-          <button 
-            className="primary-button fit-content" 
-            onClick={handleAdminPortal}
-            aria-label="Open self-service portal"
-          >
-            Self-service portal
-          </button>
+          <div className="title-actions">
+            <button
+              className="primary-button fit-content"
+              onClick={() => setShowVerifyModal(true)}
+              aria-label="Verify device"
+            >
+              Verify Device
+            </button>
+            <button
+              className="primary-button fit-content"
+              onClick={handleAdminPortal}
+              aria-label="Open self-service portal"
+            >
+              Self-service portal
+            </button>
+          </div>
         </div>
         <div className="tenants-wrapper">
           <div className="tenant-card">
@@ -51,8 +62,18 @@ const AccountInfo = () => {
           <TenantInfo />
         </div>
       </div>
+ 
+      {showVerifyModal && (
+        <VerifyDeviceModal
+          onClose={() => setShowVerifyModal(false)}
+          onSubmit={(code) => {
+            setShowVerifyModal(false);
+            window.location.href = `/activate?user_code=${code}`;
+          }}
+        />
+      )}
     </main>
   );
-};
+}
 
 export default memo(AccountInfo);
