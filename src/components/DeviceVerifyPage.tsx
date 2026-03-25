@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ContextHolder, useAuth, useLoginWithRedirect } from "@frontegg/react";
+import { useNavigate } from "react-router-dom";
 import "../DeviceVerifyPage.css";
 
 const BASE_URL = "https://app-5mqbv7b5ict9.stg.frontegg.com";
@@ -15,6 +16,7 @@ interface DeviceInfo {
 export default function DeviceVerifyPage() {
   const { isAuthenticated } = useAuth();
   const loginWithRedirect = useLoginWithRedirect();
+  const navigate = useNavigate();
   const userCode = new URLSearchParams(window.location.search).get("user_code");
 
   const [status, setStatus] = useState<Status>("loading");
@@ -149,7 +151,7 @@ export default function DeviceVerifyPage() {
                 <img className="dvp-result-icon" src="/icons/success.svg" alt="Success" />
                 <h1 className="dvp-result-title">Successfully activated!</h1>
                 <p className="dvp-result-sub">
-                  Activated successfully. You can now close this window and return to your device.
+                  Your device has been authorized. Return to your account or go back to your device.
                 </p>
               </>
             ) : (
@@ -157,10 +159,13 @@ export default function DeviceVerifyPage() {
                 <img className="dvp-result-icon" src="/icons/denied.svg" alt="Denied" />
                 <h1 className="dvp-result-title">Access Denied</h1>
                 <p className="dvp-result-sub">
-                  You have denied access for this device. You can close this window.
+                  You have denied access for this device. You can verify another device or return to your account.
                 </p>
               </>
             )}
+            <button className="dvp-btn dvp-btn-approve" onClick={() => navigate("/")}>
+              Back to Account
+            </button>
           </div>
         )}
 
