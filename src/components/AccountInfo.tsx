@@ -1,5 +1,6 @@
 import { AdminPortal, useAuth } from "@frontegg/react";
 import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TenantInfo from "./TenantInfo";
 import UserProfileIcon from "./UserProfileIcon";
 import UserInfoItem from "./UserInfoItem";
@@ -8,6 +9,7 @@ import VerifyDeviceModal from "./DeviceModal";
 const AccountInfo = () => {
   const { user } = useAuth();
   const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const navigate = useNavigate();
  
   const handleAdminPortal = () => {
     window.location.href = "#/admin-box";
@@ -68,7 +70,7 @@ const AccountInfo = () => {
           onClose={() => setShowVerifyModal(false)}
           onSubmit={(code) => {
             setShowVerifyModal(false);
-            window.location.href = `/activate?user_code=${code}`;
+            navigate(`/activate?user_code=${code}`);
           }}
         />
       )}
