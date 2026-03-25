@@ -159,11 +159,11 @@ export default function DeviceVerifyPage() {
                 <img className="dvp-result-icon" src="/icons/denied.svg" alt="Denied" />
                 <h1 className="dvp-result-title">Access Denied</h1>
                 <p className="dvp-result-sub">
-                  You have denied access for this device. You can verify another device or return to your account.
+                  You have denied access for this device. You can return to your account and verify another device.
                 </p>
               </>
             )}
-            <button className="dvp-btn dvp-btn-approve" onClick={() => navigate("/")}>
+            <button className="dvp-btn dvp-btn-approve dvp-result-back" onClick={() => navigate("/")}>
               Back to Account
             </button>
           </div>
