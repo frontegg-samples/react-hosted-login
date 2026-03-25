@@ -214,11 +214,16 @@
   margin-bottom: 12px;
 }
 
+.dvp-result-back {
+  width: 100%;
+}
+
 .dvp-result-sub {
   font-size: 14px;
   color: var(--classic-grey-600, #7a7c81);
   line-height: 1.6;
   max-width: 320px;
+  margin-bottom: 28px;
 }
 
 .dvp-error {
