@@ -261,6 +261,7 @@
   font-size: 14px;
   color: var(--classic-grey-600, #7a7c81);
   line-height: 1.6;
+  margin-bottom: 28px;
 }
 
 .dvp-footer svg {
