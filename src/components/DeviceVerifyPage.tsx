@@ -180,6 +180,9 @@ export default function DeviceVerifyPage() {
                 ? "No device code provided. Please check the link and try again."
                 : "Unable to verify this device. The code may be expired or invalid."}
             </p>
+            <button className="dvp-btn dvp-btn-approve dvp-result-back" onClick={() => navigate("/")}>
+              Back to Account
+            </button>
           </div>
         )}
       </div>
