@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { ContextHolder, useAuth, useLoginWithRedirect } from "@frontegg/react";
 import { useNavigate } from "react-router-dom";
 import "../DeviceVerifyPage.css";
+import { sanboxContextOptions } from "../config/sanboxContextOptions";
 
-const BASE_URL = "https://app-5mqbv7b5ict9.stg.frontegg.com";
+const BASE_URL = sanboxContextOptions.baseUrl;
 
 type Status = "loading" | "confirm" | "done" | "error";
 
