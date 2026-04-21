@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ContextHolder, useAuth, useLoginWithRedirect } from "@frontegg/react";
 import { useNavigate } from "react-router-dom";
 import "../DeviceVerifyPage.css";
@@ -30,24 +30,7 @@ export default function DeviceVerifyPage() {
   const [confirmStatus, setConfirmStatus] = useState("");
   const hasRedirected = useRef(false);
 
-  useEffect(() => {
-    if (!userCode) {
-      setStatus("error");
-      return;
-    }
-    if (!isAuthenticated) {
-      if (!hasRedirected.current) {
-        hasRedirected.current = true;
-        loginWithRedirect({
-          redirectUrl: `${window.location.origin}/activate?user_code=${userCode}`,
-        });
-      }
-      return;
-    }
-    loadDeviceInfo();
-  }, [isAuthenticated, userCode]);
-
-  const loadDeviceInfo = async () => {
+  const loadDeviceInfo = useCallback(async () => {
     try {
       const token = await ContextHolder.default().getAccessToken();
       const res = await fetch(
@@ -75,7 +58,24 @@ export default function DeviceVerifyPage() {
     } catch {
       setStatus("error");
     }
-  };
+  }, [userCode]);
+
+  useEffect(() => {
+    if (!userCode) {
+      setStatus("error");
+      return;
+    }
+    if (!isAuthenticated) {
+      if (!hasRedirected.current) {
+        hasRedirected.current = true;
+        loginWithRedirect({
+          redirectUrl: `${window.location.origin}/activate?user_code=${userCode}`,
+        });
+      }
+      return;
+    }
+    loadDeviceInfo();
+  }, [isAuthenticated, userCode, loginWithRedirect, loadDeviceInfo]);
 
   const verify = async (isApproved: boolean) => {
     setConfirmStatus("Processing...");
