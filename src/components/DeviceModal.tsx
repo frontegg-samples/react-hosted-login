@@ -1,5 +1,6 @@
 import { useState } from "react";
 import validateDeviceCode from "../utils/validateDeviceCode";
+import "../DeviceModal.css"
 
 interface VerifyDeviceModalProps {
   onClose: () => void;
