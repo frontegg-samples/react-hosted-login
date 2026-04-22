@@ -552,18 +552,18 @@
 }
 
 .modal-input-error {
-  border-color: #ef4444;
+   border-color: var(--classic-error, #ef4444);
 }
 
 .modal-input-error:focus {
-  border-color: #ef4444;
+   border-color: var(--classic-error, #ef4444);
 }
 
 .modal-error {
   font-size: 12px;
   line-height: 100%;
   font-weight: 400;
-  color: #ef4444;
+  color: var(--classic-error, #ef4444);
   margin-top: 6px;
 }
 
