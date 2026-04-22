@@ -27,7 +27,7 @@ const App = () => {
         </Routes>
       </FronteggProvider>
     </BrowserRouter>
-      {fronteggLoading && <div className="spinner"></div>}
+    {fronteggLoading && <div className="spinner"></div>}
     </>
   );
 };
