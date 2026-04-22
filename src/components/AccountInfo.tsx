@@ -70,7 +70,7 @@ const AccountInfo = () => {
           onClose={() => setShowVerifyModal(false)}
           onSubmit={(code) => {
             setShowVerifyModal(false);
-            navigate(`/activate?user_code=${code}`);
+            navigate(`/activate?user_code=${encodeURIComponent(code)}`);
           }}
         />
       )}
