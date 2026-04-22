@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ContextHolder, useAuth, useLoginWithRedirect } from "@frontegg/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "../DeviceVerifyPage.css";
 import { sanboxContextOptions } from "../config/sanboxContextOptions";
 
@@ -18,7 +18,8 @@ export default function DeviceVerifyPage() {
   const { isAuthenticated } = useAuth();
   const loginWithRedirect = useLoginWithRedirect();
   const navigate = useNavigate();
-  const userCode = new URLSearchParams(window.location.search).get("user_code");
+  const [searchParams] = useSearchParams()
+  const userCode = searchParams.get("user_code");
 
   const [status, setStatus] = useState<Status>("loading");
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>({
