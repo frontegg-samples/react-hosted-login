@@ -190,3 +190,4 @@ jobs:
           SLACK_TITLE: "Frontegg Package Update Failed"
           SLACK_WEBHOOK: ${{ secrets.SAMPLES_UPDATE_SLACK_WEBHOOK }}
           MSG_MINIMAL: true
+# scheduler-refresh: 2026-04-23T15:08:09Z
