@@ -1,14 +1,17 @@
 import { FronteggProvider } from "@frontegg/react";
 import { memo, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import { sanboxContextOptions } from "./config/sanboxContextOptions";
 import Main from "./components/Main";
+import DeviceVerifyPage from "./components/DeviceVerifyPage";
 
 const App = () => {
   const [fronteggLoading, setFronteggLoading] = useState(true);
   
   return (
     <>
+    <BrowserRouter>
       <FronteggProvider
         contextOptions={sanboxContextOptions}
         hostedLoginBox={true}
@@ -17,9 +20,14 @@ const App = () => {
         }}
         customLoader={setFronteggLoading}
       >
-        <Main />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/activate" element={<DeviceVerifyPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </FronteggProvider>
-      {fronteggLoading && <div className="spinner"></div>}
+    </BrowserRouter>
+    {fronteggLoading && <div className="spinner"></div>}
     </>
   );
 };
